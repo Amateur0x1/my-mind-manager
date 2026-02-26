@@ -1,158 +1,99 @@
-# 小红书发布指南
+# 小红书长文发布指南
 
-使用浏览器自动化发布文章到小红书。
-
----
-
-## 前提条件
-
-### 1. 浏览器登录
-
-首次使用需要：
-1. 打开小红书创作服务平台：https://creator.xiaohongshu.com/new/home
-2. 使用账号密码登录
-3. 保持登录状态（Cookie 会话）
-
-### 2. OpenClaw 浏览器
-
-使用 OpenClaw 内置浏览器：
-```typescript
-await browser.open({
-    url: 'https://creator.xiaohongshu.com/new/home',
-    profile: 'openclaw'
-})
-```
+使用 OpenClaw 浏览器自动化发布长文笔记到小红书。
 
 ---
 
-## 平台页面结构
+## 使用场景
 
-### 首页 (`/new/home`)
-
-**左侧导航栏**：
-| 元素 | ref |
-|------|-----|
-| 首页 | e37 |
-| 笔记管理 | e44 |
-| 数据看板 | e47 |
-| 活动中心 | e65 |
-| 笔记灵感 | e72 |
-| 创作学院 | e79 |
-| 创作百科 | e83 |
-
-**右侧主内容区**：
-| 功能 | ref |
-|------|-----|
-| 发布笔记 | e28 |
-| 发布图文笔记 | e148 |
-| 发布视频笔记 | e154 |
-| 去开播 | e160 |
+用户想在小红书发布长文笔记时使用。
 
 ---
 
 ## 发布流程
 
-### Step 1: 准备内容
+### 1. 进入发布页面
 
-```bash
-# 查看已发布的文章
-ls articles/published/
-
-# 查看素材图片
-ls assets/images/
+浏览器打开：
+```
+https://creator.xiaohongshu.com/publish/publish?source=official
 ```
 
-### Step 2: 使用 Skill 触发
+或从首页点击「发布笔记」→「写长文」
 
-在 OpenClaw 中说：
-- "发布小红书"
-- "把这篇文章发到小红书"
+### 2. 选择「写长文」
 
-### Step 3: 自动化发布
+1. 点击侧边栏的「写长文」
+2. 点击「新的创作」
 
-1. **打开创作服务平台首页**
-   ```typescript
-   await browser.open({
-       url: 'https://creator.xiaohongshu.com/new/home',
-       profile: 'openclaw'
-   })
-   ```
+### 3. 输入内容
 
-2. **点击发布笔记**
-   ```typescript
-   await browser.act({
-       kind: 'click',
-       ref: 'e28'  // 发布笔记按钮
-   })
-   ```
+1. 点击标题输入框，输入标题
+2. 点击正文区域，输入正文内容（可以分多次输入）
 
-3. **选择发布类型**
-   - 图文笔记：`e148`
-   - 视频笔记：`e154`
+### 4. 一键排版
 
-4. **获取文章内容**
-   - 从 `articles/published/` 读取 Markdown
-   - 转换为纯文本
+点击「一键排版」按钮
 
-5. **输入标题和正文**
-   - 使用 `browser.act` 找到输入框
-   - 填充内容
+### 5. 选择模板
 
-6. **上传图片**
-   - 点击上传按钮
-   - 选择图片文件
+1. 在右侧选择模板（第一个「简约基础」即可）
+2. 选择后点击「下一步」
 
-7. **发布**
-   - 点击发布按钮
+### 6. 发布
+
+在发布页面确认内容，点击「发布」按钮
 
 ---
 
 ## 代码示例
 
 ```typescript
-// 1. 打开发布平台
+// 1. 打开发布页面
 await browser.open({
-    url: 'https://creator.xiaohongshu.com/new/home',
+    url: 'https://creator.xiaohongshu.com/publish/publish?source=official',
     profile: 'openclaw'
 })
 
-// 2. 获取快照确定元素
+// 2. 获取快照
 const snapshot = await browser.snapshot()
 
-// 3. 点击发布笔记
-await browser.act({
-    kind: 'click',
-    ref: 'e28'
-})
+// 3. 点击「写长文」(如果需要)
+// 从首页: e28 -> 选择写长文
 
-// 4. 选择图文笔记
-await browser.act({
-    kind: 'click',
-    ref: 'e148'
-})
-
-// 5. 输入标题
+// 4. 输入标题
 await browser.act({
     kind: 'type',
-    ref: 'title-input',
+    ref: 'title-input', // 根据实际元素调整
     text: articleTitle
 })
 
-// 6. 输入正文
+// 5. 输入正文
 await browser.act({
     kind: 'type',
-    ref: 'content-input',
+    ref: 'content-input', // 根据实际元素调整
     text: articleContent
 })
 
-// 7. 上传图片
+// 6. 一键排版
 await browser.act({
     kind: 'click',
-    ref: 'upload-btn'
+    ref: 'auto-format-btn'
 })
-// 选择文件
 
-// 8. 发布
+// 7. 选择模板
+await browser.act({
+    kind: 'click',
+    ref: 'template-1'
+})
+
+// 8. 下一步
+await browser.act({
+    kind: 'click',
+    ref: 'next-btn'
+})
+
+// 9. 发布
 await browser.act({
     kind: 'click',
     ref: 'publish-btn'
@@ -161,39 +102,31 @@ await browser.act({
 
 ---
 
-## 注意事项
+## 页面元素参考
 
-| 事项 | 说明 |
+| 功能 | 说明 |
 |------|------|
-| 发布频率 | 建议每天不超过 10 篇 |
-| 图片数量 | 建议 9 张以内 |
-| 图片比例 | 16:9 或 4:3 效果较好 |
-| 文字长度 | 建议 500-1000 字 |
-| 敏感词 | 发布前检查敏感词 |
+| 写长文 | 从首页点击「发布笔记」后选择 |
+| 新的创作 | 按钮，用于创建新文章 |
+| 标题输入框 | textbox，placeholder 为"输入标题" |
+| 正文区域 | 点击后进入编辑模式 |
+| 一键排版 | 按钮，位于标题下方 |
+| 简约基础 | 第一个模板选项 |
+| 下一步 | 选择模板后点击 |
+| 发布 | 最终发布按钮 |
 
 ---
 
-## 常见问题
+## 注意事项
 
-### Q: 发布的 URL 是什么？
-
-A: 正确地址是 `https://creator.xiaohongshu.com/new/home`，旧版 `/publish/publishArticle` 已废弃。
-
-### Q: 发布入口在哪里？
-
-A: 首页右侧有「发布笔记」按钮（ref=e28），点击后选择图文或视频。
-
-### Q: 发布失败怎么办？
-
-A: 检查：
-1. 网络是否正常
-2. 登录是否过期
-3. 内容是否包含敏感词
-4. 图片是否合规
+1. **浏览器使用 OpenClaw 内置浏览器** (`profile: 'openclaw'`)
+2. **如果页面元素有变化**，根据实际情况调整
+3. **发布成功后**可以进入「笔记管理」确认
+4. **长文支持千字**，适合深度内容
 
 ---
 
 ## 相关文件
 
-- 文章目录：`articles/published/`
-- 图片目录：`assets/images/`
+- 文章目录：`~/my-mind/articles/published/`
+- 图片目录：`~/my-mind/assets/images/`
