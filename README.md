@@ -6,31 +6,37 @@
 
 ### 2. 在 OpenClaw 中使用
 
-如果你希望在命令行环境下使用：
+如果你希望在 OpenClaw 中使用：
 
-1. **安装**：将技能仓库克隆到 OpenClaw 的 skills 目录
-   ```bash
-   # 克隆到 workspace skills（推荐）
-   cd ~/.openclaw/workspace/skills
-   git clone <技能仓库地址> my-mind-manager
+#### 方式一：Git 克隆（推荐）
 
-   # 或者克隆到全局 skills
-   cd ~/.openclaw/skills
-   git clone <技能仓库地址> my-mind-manager
-   ```
+```bash
+# 克隆到 workspace skills（推荐）
+cd ~/.openclaw/workspace/skills
+git clone <技能仓库地址> my-mind-manager
 
-2. **触发方式**：
+# 或者克隆到全局 skills
+cd ~/.openclaw/skills
+git clone <技能仓库地址> my-mind-manager
+```
 
-   - **方式一：slash command（推荐）**
-     ```
-     /my-mind-manager
-     ```
+#### 方式二：ClawHub 安装
 
-   - **方式二：自然语言触发**
-     - "帮我管理 my-mind"
-     - "初始化目录结构"
-     - "记录一个灵感"
-     - "帮我写篇文章"
+```bash
+# 安装 CLI（如果还没有）
+npm i -g clawhub
+
+# 搜索技能
+clawhub search "my-mind"
+
+# 安装到 workspace
+clawhub install my-mind-manager
+```
+
+#### 触发方式
+
+- **slash command**: `/my-mind-manager`
+- **自然语言**: "帮我管理 my-mind"、"初始化目录"、"记录灵感"
 
 ---
 
