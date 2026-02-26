@@ -19,34 +19,45 @@
 https://creator.xiaohongshu.com/publish/publish?source=official
 ```
 
-或从首页点击「发布笔记」→「写长文」
-
 ### 2. 选择「写长文」
 
-1. 点击侧边栏的「写长文」
-2. 点击「新的创作」
+1. 页面加载后，点击侧边栏的「写长文」(ref=e1117)
+2. 点击「新的创作」按钮
 
 ### 3. 输入内容
 
-1. 点击标题输入框，输入标题
-2. 点击正文区域，输入正文内容（可以分多次输入）
+1. 点击标题输入框(ref=e229)，输入标题
+2. 点击正文区域(ref=e234)，输入正文内容
 
 ### 4. 一键排版
 
-点击「一键排版」按钮
+1. 点击「一键排版」按钮(ref=e236)
+2. 在模板列表中选择一个模板（如第一个）
+3. 点击「下一步」按钮
 
-### 5. 选择模板
+### 5. 发布
 
-1. 在右侧选择模板（第一个「简约基础」即可）
-2. 选择后点击「下一步」
-
-### 6. 发布
-
-在发布页面确认内容，点击「发布」按钮
+1. 在发布页面确认内容
+2. 点击「发布」按钮(ref=e1101)
 
 ---
 
-## 代码示例
+## 页面元素参考（实测）
+
+| 步骤 | 元素 | ref |
+|------|------|-----|
+| 写长文 | 按钮 | e1117 |
+| 新的创作 | 按钮 | e148 |
+| 标题输入 | textbox | e229 |
+| 正文区域 | paragraph | e234 |
+| 一键排版 | 按钮 | e236 |
+| 模板选择 | 按钮 | e356 |
+| 下一步 | 按钮 | e530 |
+| 发布 | 按钮 | e1101 |
+
+---
+
+## 完整代码示例
 
 ```typescript
 // 1. 打开发布页面
@@ -55,74 +66,56 @@ await browser.open({
     profile: 'openclaw'
 })
 
-// 2. 获取快照
+// 2. 等待页面加载，获取快照
 const snapshot = await browser.snapshot()
 
-// 3. 点击「写长文」(如果需要)
-// 从首页: e28 -> 选择写长文
+// 3. 点击「写长文」
+await browser.act({ kind: 'click', ref: 'e1117' })
 
-// 4. 输入标题
-await browser.act({
-    kind: 'type',
-    ref: 'title-input', // 根据实际元素调整
-    text: articleTitle
+// 4. 点击「新的创作」
+await browser.act({ kind: 'click', ref: 'e148' })
+
+// 5. 输入标题
+await browser.act({ 
+    kind: 'type', 
+    ref: 'e229', 
+    text: articleTitle 
 })
 
-// 5. 输入正文
-await browser.act({
-    kind: 'type',
-    ref: 'content-input', // 根据实际元素调整
-    text: articleContent
+// 6. 输入正文
+await browser.act({ 
+    kind: 'type', 
+    ref: 'e234', 
+    text: articleContent 
 })
 
-// 6. 一键排版
-await browser.act({
-    kind: 'click',
-    ref: 'auto-format-btn'
-})
+// 7. 一键排版
+await browser.act({ kind: 'click', ref: 'e236' })
 
-// 7. 选择模板
-await browser.act({
-    kind: 'click',
-    ref: 'template-1'
-})
+// 8. 选择模板
+await browser.act({ kind: 'click', ref: 'e356' })
 
-// 8. 下一步
-await browser.act({
-    kind: 'click',
-    ref: 'next-btn'
-})
+// 9. 下一步
+await browser.act({ kind: 'click', ref: 'e530' })
 
-// 9. 发布
-await browser.act({
-    kind: 'click',
-    ref: 'publish-btn'
-})
+// 10. 发布
+await browser.act({ kind: 'click', ref: 'e1101' })
 ```
-
----
-
-## 页面元素参考
-
-| 功能 | 说明 |
-|------|------|
-| 写长文 | 从首页点击「发布笔记」后选择 |
-| 新的创作 | 按钮，用于创建新文章 |
-| 标题输入框 | textbox，placeholder 为"输入标题" |
-| 正文区域 | 点击后进入编辑模式 |
-| 一键排版 | 按钮，位于标题下方 |
-| 简约基础 | 第一个模板选项 |
-| 下一步 | 选择模板后点击 |
-| 发布 | 最终发布按钮 |
 
 ---
 
 ## 注意事项
 
 1. **浏览器使用 OpenClaw 内置浏览器** (`profile: 'openclaw'`)
-2. **如果页面元素有变化**，根据实际情况调整
+2. **元素 ref 可能变化**，建议每次获取快照确认
 3. **发布成功后**可以进入「笔记管理」确认
 4. **长文支持千字**，适合深度内容
+
+---
+
+## 验证发布成功
+
+发布成功后，页面会回到创作首页，草稿箱数量可能会增加或减少。
 
 ---
 
