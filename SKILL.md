@@ -2,8 +2,8 @@
 name: my-mind-manager
 description: |
   my-mind 灵感文章创作管理技能。用于管理灵感、文章和创作素材。
-  触发语包括：帮我管理my-mind、创建灵感、整理文章、发布文章、创作素材管理、初始化目录结构、my-mind
-  可识别关键词：my-mind、灵感管理、文章创作、素材管理、笔记管理、目录初始化
+  触发语包括：帮我管理my-mind、创建灵感、整理文章、发布文章、创作素材管理、初始化目录结构、my-mind、发布小红书
+  可识别关键词：my-mind、灵感管理、文章创作、素材管理、笔记管理、目录初始化、小红书发布
 ---
 
 # my-mind Manager Skill
@@ -55,6 +55,80 @@ my-mind/
 - 移动素材到正确位置
 - 清理临时文件
 
+### 5. 发布小红书
+
+使用浏览器自动化发布文章到小红书：
+
+#### 发布流程
+
+1. **准备工作**
+   - 用户需先在浏览器登录小红书
+   - 获取 Cookie（通过开发者工具）
+
+2. **内容准备**
+   - 从 `articles/published/` 读取已发布的文章
+   - 从 `assets/images/` 准备配图
+
+3. **自动化发布**
+   - 使用 Playwright/Puppeteer 控制浏览器
+   - 自动填充标题和正文
+   - 自动上传图片
+   - 自动点击发布
+
+#### 触发方式
+
+当用户说"发布小红书"、"发到小红书"时：
+
+1. 询问要发布的文章
+2. 询问配图（可选）
+3. 打开浏览器自动化执行发布
+
+#### 技术实现
+
+使用 `browser` 工具进行自动化：
+
+```typescript
+// 1. 打开小红书创作者中心
+await browser.open({
+    url: 'https://creator.xiaohongshu.com/publish/publishArticle',
+    profile: 'chrome'
+})
+
+// 2. 输入标题
+await browser.act({
+    kind: 'type',
+    ref: 'title-input',
+    text: articleTitle
+})
+
+// 3. 输入正文
+await browser.act({
+    kind: 'type',
+    ref: 'content-input',
+    text: articleContent
+})
+
+// 4. 上传图片
+await browser.act({
+    kind: 'click',
+    ref: 'upload-button'
+})
+// 选择图片文件
+
+// 5. 点击发布
+await browser.act({
+    kind: 'click',
+    ref: 'publish-button'
+})
+```
+
+#### 注意事项
+
+- 需要用户先登录一次获取 Cookie
+- 首次使用需授权浏览器插件
+- 发布频率限制：建议每天不超过 10 篇
+- 图片建议：9 张以内，16:9 或 4:3 比例
+
 ---
 
 ## 使用流程
@@ -91,6 +165,15 @@ my-mind/
 2. 移动到 `articles/published/`
 3. 按日期重命名
 
+### 方式五：发布小红书
+
+当用户说"发布小红书"、"发到小红书"时：
+
+1. 确认要发布的文章
+2. 确认配图
+3. 使用浏览器自动化执行发布
+4. 反馈发布结果
+
 ---
 
 ## 命名规范
@@ -115,6 +198,7 @@ my-mind/
 3. 文章发布前确认用户意图
 4. 素材移动前确认目标路径
 5. 定期提醒用户清理 `inbox/to-process/`
+6. 发布小红书前确保内容合规
 
 ---
 
@@ -123,3 +207,4 @@ my-mind/
 - Obsidian
 - Notion
 - 任意 Markdown 编辑器
+- 浏览器自动化（browser 工具）
