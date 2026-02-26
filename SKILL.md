@@ -55,20 +55,83 @@ my-mind/
 - 移动素材到正确位置
 - 清理临时文件
 
-### 5. 发布小红书
+### 5. 发布小红书（自动化）
 
-使用浏览器自动化发布文章到小红书。
+使用 OpenClaw 浏览器自动化发布长文笔记到小红书。
 
-详细流程见：`references/xhs-publish.md`
-
-#### 触发方式
+#### 发布流程
 
 当用户说"发布小红书"、"发到小红书"时：
 
-1. 确认要发布的文章
-2. 确认配图
-3. 使用 browser 工具执行发布
-4. 反馈发布结果
+1. **确认要发布的文章**
+   - 读取 `articles/published/` 下的文章
+   - 或使用用户提供的文章内容
+
+2. **打开发布页面**
+   ```typescript
+   await browser.open({
+       url: 'https://creator.xiaohongshu.com/publish/publish?source=official',
+       profile: 'openclaw'
+   })
+   ```
+
+3. **点击「写长文」**
+   ```typescript
+   await browser.act({ kind: 'click', ref: 'e1117' })
+   ```
+
+4. **点击「新的创作」**
+   ```typescript
+   await browser.act({ kind: 'click', ref: 'e148' })
+   ```
+
+5. **输入标题**
+   ```typescript
+   await browser.act({ 
+       kind: 'type', 
+       ref: 'e229', 
+       text: articleTitle 
+   })
+   ```
+
+6. **输入正文**
+   ```typescript
+   await browser.act({ 
+       kind: 'type', 
+       ref: 'e234', 
+       text: articleContent 
+   })
+   ```
+
+7. **一键排版**
+   ```typescript
+   await browser.act({ kind: 'click', ref: 'e236' })
+   ```
+
+8. **选择模板**
+   ```typescript
+   await browser.act({ kind: 'click', ref: 'e356' })
+   ```
+
+9. **下一步**
+   ```typescript
+   await browser.act({ kind: 'click', ref: 'e530' })
+   ```
+
+10. **发布**
+    ```typescript
+    await browser.act({ kind: 'click', ref: 'e1101' })
+    ```
+
+11. **反馈结果**
+    - 确认发布成功
+    - 提醒用户查看
+
+#### 注意事项
+
+- **元素 ref 可能变化**：每次建议获取 snapshot 确认
+- **长文类型**：当前仅支持长文笔记（千字）
+- **图片**：暂不支持自动上传图片
 
 ---
 
