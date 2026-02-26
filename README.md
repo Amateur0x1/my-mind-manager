@@ -103,7 +103,15 @@ clawhub install my-mind-manager
 
 ## 🛠 配套脚本
 
-### 初始化脚本
+### 一键初始化
+
+```bash
+# 初始化 my-mind（目录 + Git + README）
+./scripts/quickstart.sh
+./scripts/quickstart.sh ~/my-mind  # 指定目录
+```
+
+### 初始化目录
 
 ```bash
 # 在当前目录初始化
@@ -111,6 +119,13 @@ clawhub install my-mind-manager
 
 # 在指定目录初始化
 ./scripts/init.sh /path/to/my-mind
+```
+
+### 状态检查
+
+```bash
+# 查看 my-mind 状态
+./scripts/status.sh
 ```
 
 ### 快速记录灵感

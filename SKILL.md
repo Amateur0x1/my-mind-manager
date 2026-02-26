@@ -69,12 +69,33 @@ my-mind/
 - `inspiration-format.md`: 灵感记录规范
 - `article-format.md`: 文章写作规范
 - `xhs-publish.md`: 小红书发布指南
+- `workflow.md`: 自动化工作流
+- `tool-integration.md`: 工具集成指南
 
 当用户说"沉淀一下"、"记录这个"时：
 1. 分析内容
 2. 选择合适的分类
 3. 创建文档
 4. 提交保存
+
+### 7. 状态检查
+
+查看 my-mind 仓库状态：
+- 各目录文件数量
+- 最新文件
+- Git 状态
+- 建议操作
+
+当用户说"查看状态"、"我的 my-mind 怎么样"时，执行 `scripts/status.sh` 或直接列出各目录内容。
+
+### 8. 一键初始化
+
+快速初始化新的 my-mind 仓库：
+- 创建目录结构
+- 初始化 Git
+- 生成 README
+
+当用户说"初始化 my-mind"、"创建 my-mind"时，使用 `scripts/quickstart.sh`
 
 #### 发布流程
 
