@@ -130,6 +130,15 @@ clawhub install my-mind-manager
 ./scripts/article.sh "我的第一篇文章"
 ```
 
+### 发布小红书（自动化）
+
+在 OpenClaw 中直接说"发布小红书"即可自动执行发布流程。
+
+或使用脚本选择文章：
+```bash
+./scripts/publish-xhs.sh
+```
+
 ---
 
 ## 📝 触发示例
@@ -139,7 +148,7 @@ clawhub install my-mind-manager
 | 初始化 | "初始化 my-mind"、"创建目录结构" |
 | 记录灵感 | "记录灵感"、"有个想法" |
 | 写文章 | "帮我写篇文章"、"创作" |
-| 发布 | "发布文章"、"完成写作" |
+| 发布小红书 | "发布小红书"、"发到小红书" |
 
 ---
 
