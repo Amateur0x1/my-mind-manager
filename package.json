@@ -1,0 +1,21 @@
+{
+  "name": "my-mind-manager",
+  "version": "1.0.0",
+  "description": "my-mind skill with HTML templates and screenshot tools",
+  "main": "index.js",
+  "scripts": {
+    "screenshot": "node scripts/screenshot-cards.js"
+  },
+  "dependencies": {
+    "playwright": "^1.58.2"
+  },
+  "keywords": [
+    "skill",
+    "my-mind",
+    "html",
+    "ppt",
+    "slides"
+  ],
+  "author": "",
+  "license": "MIT"
+}
