@@ -46,7 +46,67 @@ const title = titleMatch ? titleMatch[1] : basename;
 function parseSlides(md) {
     const slides = [];
     const lines = md.split('\n');
-    let currentSlide = { title: '', content: [] };
+    let currentSlide = { title: '', content: [] ,
+    ppt_cute: {
+        name: '可爱风格',
+        css: `*{margin:0;padding:0;box-sizing:border-box}html,body{height:100%;overflow:hidden}body{font-family:'Nunito','Noto Sans SC',sans-serif;background:linear-gradient(135deg,#fff5f7,#f5f0ff);color:#5a5a6e}.slide{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:4rem;text-align:center;opacity:0;position:absolute;width:100%;transition:opacity .5s ease}.slide.active{opacity:1}.slide h1{font-size:3rem;font-weight:700;margin-bottom:2rem;background:linear-gradient(135deg,#ff9a9e,#fad0c4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.slide h2{font-size:2rem;color:#a78bfa;margin-bottom:1.5rem;font-weight:600}.slide h3{font-size:1.5rem;color:#f9a8d4;margin-bottom:1rem}.slide p{font-size:1.2rem;color:#7c7c8d;max-width:700px;line-height:1.8}.slide li{color:#8b8b9e;margin:.5rem 0}.slide code{background:#fff;padding:.3em .6em;border-radius:8px;color:#a78bfa;box-shadow:0 2px 8px rgba(167,139,250,.2)}.slide pre{background:#fff;border-radius:16px;padding:1.5rem;text-align:left;overflow:auto;max-width:80%;box-shadow:0 4px 20px rgba(255,182,193,.3)}.nav-dots{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;gap:.8rem;z-index:100}.nav-dot{width:14px;height:14px;border-radius:50%;background:#e8e8f0;cursor:pointer;transition:all .3s;border:3px solid transparent}.nav-dot.active{background:#ff9a9e;border-color:#ffd1d4;transform:scale(1.2)}.progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,#ff9a9e,#a78bfa,#f9a8d4);transition:width .3s;z-index:100}.slide-number{position:fixed;bottom:2rem;right:2rem;color:#b8b8c8;font-size:.9rem;font-weight:600;z-index:100}.hint{position:fixed;bottom:2rem;left:2rem;color:#c8c8d8;font-size:.8rem;z-index:100}`,
+        head: `<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">`,
+        render: (slides) => {
+            const slidesHtml = slides.map((s, i) => {
+                const content = s.content.length ? parseToHtml(s.content.join('\n')) : '';
+                return `<div class="slide${i===0?' active':''}" data-index="${i}">
+                    ${s.title ? `<h1>${s.title}</h1>` : ''}
+                    ${content}
+                </div>`;
+            }).join('');
+            
+            const dotsHtml = slides.map((_, i) => `<div class="nav-dot${i===0?' active':''}" data-index="${i}"></div>`).join('');
+            
+            return `<div class="progress-bar" id="progress"></div>
+    <div class="slides-container" id="slides">${slidesHtml}</div>
+    <div class="nav-dots" id="dots">${dotsHtml}</div>
+    <div class="slide-number" id="slideNumber">1 / ${slides.length}</div>
+    <div class="hint">← → 键切换 | 滚轮切换</div>
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.nav-dot');
+        const progress = document.getElementById('progress');
+        const slideNumber = document.getElementById('slideNumber');
+        let current = 0;
+        const total = slides.length;
+        
+        function show(index) {
+            slides.forEach((s, i) => s.classList.toggle('active', i === index));
+            dots.forEach((d, i) => d.classList.toggle('active', i === index));
+            progress.style.width = ((index + 1) / total * 100) + '%';
+            slideNumber.textContent = (index + 1) + ' / ' + total;
+            current = index;
+        }
+        
+        dots.forEach(d => d.addEventListener('click', () => show(+d.dataset.index)));
+        
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' || e.key === ' ') show((current + 1) % total);
+            if (e.key === 'ArrowLeft') show((current - 1 + total) % total);
+        });
+        
+        let ticking = false;
+        document.addEventListener('wheel', e => {
+            if (!ticking) {
+                ticking = true;
+                setTimeout(() => {
+                    if (e.deltaY > 0) show((current + 1) % total);
+                    else show((current - 1 + total) % total);
+                    ticking = false;
+                }, 500);
+            }
+        });
+        
+        show(0);
+    </script>`;
+        }
+    }
+}
     let inCodeBlock = false;
     
     for (let line of lines) {
