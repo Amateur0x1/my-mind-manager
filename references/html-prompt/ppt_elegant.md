@@ -1,69 +1,272 @@
-# PPT 模板 - 暗雅
+# PPT Template - Dark Botanical
 
-高端优雅的暗色风格幻灯片。
+Elegant, sophisticated, artistic. Dark theme with warm accents and abstract shapes.
 
-## 格式规则
+## Format Rules
 
 ```
-# 标题 = 新幻灯片
-## 二级标题 = 内容标题
-### 三级标题 = 小标题
-其他内容 = 幻灯片内容
+# Title = New Slide
+## H2 = Slide Heading
+### H3 = Subheading
+Other content = Slide content
 ```
 
-## ⚠️ 重要：内容密度限制
+## ⚠️ CRITICAL: Content Density Limits
 
-每张幻灯片内容不能太多，否则会溢出屏幕。
+Every slide MUST fit in the viewport. No scrolling within slides.
 
-| 幻灯片类型 | 最大内容 |
-|-----------|---------|
-| 标题页 | 1 标题 + 1 副标题 |
-| 内容页 | 1 标题 + 4-6 个列表项 |
+| Slide Type | Maximum Content |
+|------------|-----------------|
+| Title slide | 1 heading + 1 subtitle |
+| Content slide | 1 heading + 4-6 bullet points |
 
-**内容太多？请拆分到多张幻灯片。禁止滚动。**
+**Too much content? → Split into multiple slides. Never scroll.**
 
-## 必须的 CSS 基础样式
+---
+
+## Required Base CSS
 
 ```css
-/* 视口适配 - 必需 */
+/* VIEWPORT FITTING - MANDATORY */
 html, body {
     height: 100%;
     overflow: hidden;
 }
+html {
+    scroll-snap-type: y mandatory;
+}
 .slide {
+    width: 100vw;
     height: 100vh;
+    height: 100dvh;
     overflow: hidden;
+    scroll-snap-align: start;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 ```
 
-## 视觉特点
+---
 
-- 深灰/黑色背景
-- 渐变标题
-- 衬线字体
-- 优雅高端
+## Typography
 
-## 字体
+- **Display Font:** Cormorant (400/600) - Google Fonts (elegant serif)
+- **Body Font:** IBM Plex Sans (300/400) - Google Fonts
+- **Accent Font:** Cormorant Italic (400) - for quotes
 
-- 标题：Playfair Display (700)
-- 正文：Lato (300/400)
+---
 
-## 颜色
+## Color Palette
 
 ```css
 :root {
-    --bg-primary: #1a1a1a;
-    --text-primary: #f0f0f0;
-    --text-secondary: #a0a0a0;
-    --accent: #c9a227;
+    /* Background */
+    --bg-primary: #0f0f0f;
+    --bg-secondary: #1a1a1a;
+    
+    /* Text */
+    --text-primary: #e8e4df;
+    --text-secondary: #9a9590;
+    --text-muted: #5a5550;
+    
+    /* Warm Accents */
+    --accent-warm: #d4a574;
+    --accent-pink: #e8b4b8;
+    --accent-gold: #c9b896;
+    --accent-terracotta: #c17a5f;
+    
+    /* Effects */
+    --glow-warm: 0 0 30px rgba(212, 165, 116, 0.3);
 }
 ```
 
-## 特色元素
+---
 
-- 渐变标题
-- 金色点缀
-- 优雅衬线
-- 高级感
+## Signature Elements
+
+### Abstract Soft Shapes (CSS Only)
+```css
+.soft-shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+}
+.shape-1 {
+    width: 400px;
+    height: 400px;
+    background: var(--accent-pink);
+    top: -100px;
+    right: -100px;
+}
+.shape-2 {
+    width: 300px;
+    height: 300px;
+    background: var(--accent-gold);
+    bottom: -50px;
+    left: -50px;
+}
+```
+
+### Elegant Serif
+```css
+.elegant-title {
+    font-family: 'Cormorant', serif;
+    font-weight: 600;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.1;
+}
+```
+
+### Thin Vertical Line
+```css
+.thin-accent-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--accent-warm), transparent);
+}
+```
+
+### Italic Signature
+```css
+.signature {
+    font-family: 'Cormorant', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--accent-warm);
+}
+```
+
+---
+
+## Layout Examples
+
+### Title Slide with Shapes
+```html
+<section class="slide">
+    <div class="soft-shape shape-1"></div>
+    <div class="soft-shape shape-2"></div>
+    <div class="slide-content" style="text-align: center;">
+        <h1 class="elegant-title">
+            The Art of<br>Innovation
+        </h1>
+        <div class="thin-accent-line" style="margin: 2rem auto;"></div>
+        <p style="color: var(--text-secondary);">
+            Crafting the future with elegance
+        </p>
+    </div>
+</section>
+```
+
+### Content Slide
+```html
+<section class="slide">
+    <div class="soft-shape shape-1" style="opacity: 0.2;"></div>
+    <div class="slide-content">
+        <h2 class="elegant-title" style="font-size: 2.5rem;">
+            Philosophy
+        </h2>
+        <div style="display: flex; gap: 3rem; margin-top: 3rem;">
+            <div style="flex: 1;">
+                <p style="color: var(--text-secondary); line-height: 1.8;">
+                    We believe in the power of thoughtful design,
+                    where every element serves a purpose and
+                    every detail matters.
+                </p>
+            </div>
+            <div style="width: 1px; background: var(--text-muted);"></div>
+            <div style="flex: 1;">
+                <p class="signature">
+                    "Simplicity is the ultimate sophistication."
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+```
+
+### Feature List
+```html
+<section class="slide">
+    <div class="slide-content">
+        <h2 class="elegant-title">Principles</h2>
+        <ul style="list-style: none; padding: 0; margin-top: 2rem;">
+            <li style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem;">
+                <span style="color: var(--accent-warm);">—</span>
+                <span style="font-size: 1.25rem;">Craftsmanship</span>
+            </li>
+            <li style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem;">
+                <span style="color: var(--accent-warm);">—</span>
+                <span style="font-size: 1.25rem;">Attention to Detail</span>
+            </li>
+            <li style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem;">
+                <span style="color: var(--accent-warm);">—</span>
+                <span style="font-size: 1.25rem;">Timeless Elegance</span>
+            </li>
+        </ul>
+    </div>
+</section>
+```
+
+---
+
+## Animation Effects
+
+### Slow Fade
+```css
+@keyframes elegantFade {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+.elegant-fade {
+    animation: elegantFade 1s ease-out forwards;
+}
+```
+
+### Soft Pulse
+```css
+@keyframes softGlow {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.5; }
+}
+.glow-pulse {
+    animation: softGlow 4s ease-in-out infinite;
+}
+```
+
+---
+
+## Preset Variations
+
+### Rose Gold
+```css
+--accent-warm: #e8b4b8;
+--accent-pink: #d4a574;
+```
+
+### Terracotta
+```css
+--accent-warm: #c17a5f;
+--accent-terracotta: #a65d3f;
+```
+
+### Forest
+```css
+--accent-warm: #7d9a78;
+--accent-pink: #a4b899;
+```
+
+---
+
+## Responsive
+
+```css
+@media (max-height: 700px) {
+    .elegant-title { font-size: 2rem; }
+    .soft-shape { width: 200px; height: 200px; }
+}
+@media (max-width: 600px) {
+    .slide-content { padding: 1rem; }
+}
+```

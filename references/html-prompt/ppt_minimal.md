@@ -1,69 +1,206 @@
-# PPT 模板 - 极简白
+# PPT Template - Minimal White
 
-纯净的极简白色风格幻灯片。
+Pure, clean, minimalist. Maximum whitespace with bold typography.
 
-## 格式规则
+## Format Rules
 
 ```
-# 标题 = 新幻灯片
-## 二级标题 = 内容标题
-### 三级标题 = 小标题
-其他内容 = 幻灯片内容
+# Title = New Slide
+## H2 = Slide Heading
+### H3 = Subheading
+Other content = Slide content
 ```
 
-## ⚠️ 重要：内容密度限制
+## ⚠️ CRITICAL: Content Density Limits
 
-每张幻灯片内容不能太多，否则会溢出屏幕。
+Every slide MUST fit in the viewport. No scrolling within slides.
 
-| 幻灯片类型 | 最大内容 |
-|-----------|---------|
-| 标题页 | 1 标题 + 1 副标题 |
-| 内容页 | 1 标题 + 4-6 个列表项 |
+| Slide Type | Maximum Content |
+|------------|-----------------|
+| Title slide | 1 heading + 1 subtitle |
+| Content slide | 1 heading + 4-6 bullet points |
 
-**内容太多？请拆分到多张幻灯片。禁止滚动。**
+**Too much content? → Split into multiple slides. Never scroll.**
 
-## 必须的 CSS 基础样式
+---
+
+## Required Base CSS
 
 ```css
-/* 视口适配 - 必需 */
+/* VIEWPORT FITTING - MANDATORY */
 html, body {
     height: 100%;
     overflow: hidden;
 }
+html {
+    scroll-snap-type: y mandatory;
+}
 .slide {
+    width: 100vw;
     height: 100vh;
+    height: 100dvh;
     overflow: hidden;
+    scroll-snap-align: start;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 ```
 
-## 视觉特点
+---
 
-- 纯白背景
-- 黑色文字
-- 大量留白
-- 无衬线字体
-- 大字号
+## Typography
 
-## 字体
+- **Display Font:** Inter (800/900) - Google Fonts
+- **Body Font:** Inter (300/400) - Google Fonts
+- **Accent:** Space Grotesk (500)
 
-- 标题：Inter Bold (800)
-- 正文：Inter Light (300)
+---
 
-## 颜色
+## Color Palette
 
 ```css
 :root {
     --bg-primary: #ffffff;
+    --bg-secondary: #fafafa;
+    
     --text-primary: #000000;
     --text-secondary: #666666;
-    --accent: #ff3b30;
+    --text-tertiary: #999999;
+    
+    --accent: #000000;
+    --line: #e0e0e0;
 }
 ```
 
-## 特色元素
+---
 
-- 简洁线条
-- 大量留白
-- 精准对齐
+## Signature Elements
+
+### Giant Typography
+```css
+.minimal-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3rem, 12vw, 10rem);
+    letter-spacing: -0.04em;
+    line-height: 0.85;
+}
+```
+
+### Thin Line Separator
+```css
+.thin-line {
+    width: 100px;
+    height: 2px;
+    background: var(--accent);
+}
+```
+
+### Minimal List
+```css
+.minimal-list li {
+    font-size: 1.5rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--line);
+}
+.minimal-list li:last-child {
+    border-bottom: none;
+}
+```
+
+### Huge Number
+```css
+.minimal-number {
+    font-size: 8rem;
+    font-weight: 900;
+    color: var(--text-tertiary);
+    line-height: 1;
+}
+```
+
+---
+
+## Layout Examples
+
+### Title Slide
+```html
+<section class="slide">
+    <div class="slide-content" style="justify-content: center; align-items: flex-start; padding-left: 10%;">
+        <h1 class="minimal-title">LESS<br>IS<br>MORE</h1>
+        <div class="thin-line" style="margin-top: 3rem;"></div>
+        <p style="margin-top: 1rem; font-size: 1.25rem; color: var(--text-secondary);">
+            Design Principles
+        </p>
+    </div>
+</section>
+```
+
+### Content Slide
+```html
+<section class="slide">
+    <div class="slide-content">
+        <h2 style="font-size: 2rem; margin-bottom: 2rem;">Key Points</h2>
+        <ul class="minimal-list">
+            <li>Clarity over complexity</li>
+            <li>Space creates meaning</li>
+            <li>Every element must have purpose</li>
+            <li>White space is not empty</li>
+        </ul>
+    </div>
+</section>
+```
+
+### Numbered List
+```html
+<section class="slide">
+    <div class="slide-content" style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: start;">
+        <div class="minimal-number">01</div>
+        <div>
+            <h2>Purpose</h2>
+            <p style="color: var(--text-secondary); margin-top: 1rem;">
+                Every design decision should serve a clear purpose.
+            </p>
+        </div>
+    </div>
+</section>
+```
+
+---
+
+## Animation
+
+### Subtle Fade
+```css
+@keyframes minimalFade {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.fade-in {
+    animation: minimalFade 0.8s ease-out forwards;
+}
+```
+
+---
+
+## Preset Variations
+
+### Dark Mode
+```css
+--bg-primary: #0a0a0a;
+--text-primary: #ffffff;
+--text-secondary: #888888;
+--accent: #ffffff;
+```
+
+### Warm
+```css
+--bg-primary: #faf8f5;
+--text-primary: #1a1a1a;
+```
+
+### High Contrast
+```css
+--bg-primary: #000000;
+--accent: #ff0000;
+```
