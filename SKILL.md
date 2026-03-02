@@ -55,25 +55,38 @@ description: |
 - **项目结构**：`drafts/` `published/` `resources/`
 - **素材**：项目专属素材放 `resources/`，全局素材放 `assets/`
 
-## 4. Markdown 转 HTML
+## 4. Markdown 转 HTML（多种风格）
 
-将 Markdown 文件转换为美观的 HTML 页面：
+将 Markdown 文件转换为漂亮的 HTML 页面，支持 6 种风格：
 
 ```bash
-./scripts/md2html.sh <markdown文件> [输出目录]
-
-# 示例
-./scripts/md2html.sh README.md
-./scripts/md2html.sh README.md ./output
+./scripts/md2html.sh <markdown文件> [--style 风格] [输出目录]
 ```
 
-支持：
-- 标题、段落
-- 粗体、斜体
-- 代码块、行内代码
-- 列表
-- 链接、图片
-- 引用、水平线
+**可用风格**：
+
+| 风格 | 说明 |
+|------|------|
+| `neon` | 赛博朋克 - 霓虹紫+青色 |
+| `paper` | 纸墨风格 - 纸质书籍感 |
+| `swiss` | 现代瑞士 - 极简大胆 |
+| `pastel` | 柔和粉彩 - 甜美梦幻 |
+| `terminal` | 终端绿 - 黑客风格 |
+| `executive` | 午夜Executive - 高端商务 |
+
+**示例**：
+
+```bash
+# 默认风格（纸墨）
+./scripts/md2html.sh README.md
+
+# 指定风格
+./scripts/md2html.sh README.md --style neon
+./scripts/md2html.sh README.md --style pastel
+./scripts/md2html.sh README.md --style swiss
+```
+
+**详细样式文档**：见 `references/HTML_STYLES.md`
 
 ## 5. 发布小红书
 
