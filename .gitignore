@@ -1,15 +1,13 @@
-# OS
-.DS_Store
-Thumbs.db
+# node_modules
+node_modules/
 
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
+# 截图输出
+screenshots/
+images/
 
-# Logs
+# 临时文件
 *.log
+.DS_Store
 
-# Temporary
-*.tmp
+# 临时 HTML
+_temp_*.html
