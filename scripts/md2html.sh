@@ -8,12 +8,12 @@ REFERENCES_DIR="$SCRIPT_DIR/../references/html-prompt"
 if [ "$1" = "--list" ]; then
     echo "📋 可用 HTML 模板："
     echo ""
-    echo "  ppt_simple    - 简洁幻灯片"
-    echo "  ppt_cyber    - 赛博朋克"
-    echo "  ppt_minimal  - 极简白"
-    echo "  ppt_elegant  - 暗雅"
-    echo "  ppt_cute     - 可爱粉彩"
-    echo "  article_paper - 纸墨文章"
+    for file in "$REFERENCES_DIR"/*.md; do
+        if [ -f "$file" ]; then
+            name=$(basename "$file" .md)
+            echo "  $name"
+        fi
+    done
     echo ""
     echo "使用方式："
     echo "  $0 <markdown文件> --style <模板名>"
@@ -30,7 +30,7 @@ if [ "$1" = "--prompt" ]; then
         cat "$PROMPT_FILE"
     else
         echo "未知模板: $TEMPLATE"
-        echo "可用模板: ppt_simple, ppt_cyber, ppt_minimal, ppt_elegant, ppt_cute, article_paper"
+        ls "$REFERENCES_DIR"/*.md | xargs -n1 basename -s .md
         exit 1
     fi
     exit 0

@@ -16,4 +16,6 @@ done
 
 echo ""
 echo "使用方式："
-echo "  ./html-prompt.sh --prompt <模板名>  # 获取提示词"
+echo "  ./html-prompt-list.sh               # 列出所有模板"
+echo "  ./md2html.sh --prompt <模板名>      # 获取提示词"
+echo "  ./md2html.sh <文件> --style <模板名>  # 转换为 HTML"
