@@ -88,6 +88,12 @@ description: |
 
 **详细样式文档**：见 `references/HTML_STYLES.md`
 
+## 4.5 Markdown 转纯文本（md2text）
+
+将 Markdown 转为中文论文式纯文本（.txt）：一级标题用「一、二、三、」，二级用「（一）（二）」，列表用（1）（2）（3），去掉 `**`、`#` 等 Markdown 符号，空行与段首空格尽量少。
+
+**提示词文档**：见 `references/md2text-prompt.md`。转换时把该提示词与待转换的 .md 内容一起提供给模型即可。
+
 ## 5. 发布小红书
 
 使用 OpenClaw 浏览器自动化发布。
